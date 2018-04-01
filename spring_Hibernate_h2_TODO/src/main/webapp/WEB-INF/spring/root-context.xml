@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	<context:component-scan base-package="com.test.todo" />
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<mvc:annotation-driven />
+	
+	<!-- <resources mapping="/resources/**" location="/resources/" /> -->
+	
+	
+	<!-- <jdbc:embedded-database id="dataSource" type="H2">
+		<jdbc:script location="classpath:db/sql/create-db.sql" />
+		<jdbc:script location="classpath:db/sql/insert-data.sql" />
+	</jdbc:embedded-database>
+	 -->
+
+		<!-- <beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+			<beans:property name="driverClassName" value="org.h2.Driver" />
+			<beans:property name="url" value="jdbc:h2:~/testH2DB;AUTO_SERVER=TRUE" />
+			<beans:property name="username" value="sa" />
+			<beans:property name="password" value="sa" />
+		</beans:bean> -->
+		
+		<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+			<beans:property name="driverClassName" value="org.h2.Driver" />
+			<beans:property name="url" value="jdbc:h2:mem:test_mem;DB_CLOSE_DELAY=-1" />
+			<beans:property name="username" value="sa" />
+			<beans:property name="password" value="sa" />
+		</beans:bean>
+		
+		
+		<!-- <beans:bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+	      <beans:property name="dataSource" ref="dataSource" />
+	      <beans:property name="packagesToScan" value="com.test.todo.model" />
+	      <beans:property name="hibernateProperties">
+	         <beans:props>
+	            <beans:prop key="hibernate.hbm2ddl.auto">create-drop</beans:prop>
+	            <beans:prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</beans:prop>
+	         </beans:props>
+	      </beans:property>
+   		</beans:bean> -->
+	
+	<beans:bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+	      <beans:property name="dataSource" ref="dataSource" />
+	      <beans:property name="packagesToScan" value="com.test.todo.model" />
+	      
+	      <beans:property name="hibernateProperties">
+	         <beans:props>
+	            <beans:prop key="hibernate.hbm2ddl.auto">update</beans:prop>
+	            <beans:prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</beans:prop>
+	            <beans:prop key="hibernate.show_sql">true</beans:prop>
+	            <beans:prop key="hibernate.format_sql">true</beans:prop>
+	         </beans:props>
+	      </beans:property>
+   	</beans:bean>
+   	
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<beans:bean id="transactionManager"
+            class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <beans:property name="sessionFactory" ref="sessionFactory" />
+    </beans:bean>
+	
+	
+</beans:beans>

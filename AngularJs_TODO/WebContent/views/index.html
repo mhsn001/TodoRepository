@@ -1,0 +1,109 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+<!-- SCROLLS -->
+<!-- load bootstrap and fontawesome via CDN -->
+<link rel="stylesheet" href="../resources/style/bootstrap.min.css" />
+<link rel="stylesheet" href="../resources/style/font-awesome.css" />
+
+<!-- SPELLS -->
+<!-- load angular and angular route via CDN -->
+<script src="../resources/scripts/angular.min.js"></script>
+<script src="../resources/scripts/angular-route.js"></script>
+<script src="app.js"></script>
+</head>
+<body ng-controller="mainController">
+
+	<!-- HEADER AND NAVBAR -->
+	<header>
+		<nav class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="">TODO Example</a>
+				</div>
+
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href=""><i class="fa fa-home"></i> Home</a></li>
+					<li><a href=""><i class="fa fa-shield"></i> About</a></li>
+					<li><a href=""><i class="fa fa-comment"></i> Contact</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+	<!-- MAIN CONTENT AND INJECTED VIEWS -->
+	<div id="main" class="container">
+
+		<div class="row">
+			<div class="col-md-5 col-lg-5">
+				<table class="table">
+					<caption><h2>Add TODO</h2></caption>
+
+					<thead>
+						<tr>
+							<th>TODO</th>
+							<th>Completed</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<td><input ng-model="todoTask" type="text" value="ADD" /></td>
+							<td><input ng-model="todoComplete" type="checkbox" /></td>
+							<td><input type="button" class="btn btn-success" value="ADD"
+								ng-click="addTODO()" /></td>
+						</tr>
+					</tbody>
+
+				</table>
+
+
+			</div>
+			
+			<div class="col-md-1 col-lg-1"></div>
+			<div class="col-md-6 col-lg-6">
+				<table class="table">
+					<caption><h2>TODOs Status</h2></caption>
+
+					<thead>
+						<tr>
+							<th>TODO</th>
+							<th>Completed</th>
+						</tr>
+					</thead>
+
+					<tbody ng-repeat="todo in todoList">
+						<tr>
+							<td>{{todo.task}}</td>
+							<td><input type="checkbox" ng-checked="todo.completed"
+								ng-disabled="true" /></td>
+							<td><input type="button" class="btn btn-danger btn-xs"
+								value="DELETE" ng-click="deleteTodo(todo.id)" /></td>
+						</tr>
+					</tbody>
+
+				</table>
+
+
+
+			</div>
+		</div>
+
+
+	</div>
+
+
+
+
+
+
+	<!-- 		<div ng-view></div>
+            angular templating
+            this is where content will be injected
+
+ -->
+	</div>
+
+</body>
+</html>
